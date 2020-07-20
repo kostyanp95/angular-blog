@@ -121,5 +121,8 @@
       }
     }
   },
-  "defaultProject": "angular-blog"
+  "defaultProject": "angular-blog",
+  "cli": {
+    "analytics": "32107764-3516-4ce2-af36-f55a6d886046"
+  }
 }
