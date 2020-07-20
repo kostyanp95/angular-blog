@@ -21,7 +21,7 @@ export class LoginPageComponent implements OnInit {
     submitted = false;
 
     constructor(
-        private auth: AuthService,
+        public auth: AuthService,
         private router: Router
     ) {
     }
@@ -60,7 +60,7 @@ export class LoginPageComponent implements OnInit {
             this.router.navigate(['/admin', 'dashboard']);
             // Разблокировка кнопки после ответа сервара
             this.submitted = false;
-        });
+        }, () => this.submitted = false);
     }
 }
 
