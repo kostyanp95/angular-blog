@@ -4,7 +4,7 @@
     <div class="form-control"
          [ngClass]="{invalid: form.get('email').touched && form.get('email').invalid}">
         <label for="email">Email:</label>
-        <input id="email" type="email">
+        <input id="email" type="email" formControlName="email">
         <div *ngIf="form.get('email').touched && form.get('email').invalid"
              class="validation">
             <small *ngIf="form.get('email').errors.required">
@@ -19,10 +19,16 @@
     <div class="form-control"
          [ngClass]="{invalid: form.get('password').touched && form.get('password').invalid}">
         <label for="password">Пароль:</label>
-        <input id="password" type="password">
+        <input id="password" type="password" formControlName="password">
         <div class="validation"
              *ngIf="form.get('password').touched && form.get('password').invalid">
-            <small>jkfnjk</small>
+            <small *ngIf="form.get('password').errors.required">
+                Введите пароль
+            </small>
+            <small *ngIf="form.get('password').errors.minlength">
+                Пароль должен быть не менее <b>{{ form.get('password').errors.minlength.requiredLength }}</b> символов. <br>
+                Сейчас <b>{{ form.get('password').errors.minlength.actualLength }}</b> символ.
+            </small>
         </div>
     </div>
 
