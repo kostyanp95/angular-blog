@@ -4,6 +4,7 @@
 export interface User {
     email: string;
     password: string;
+    returnSecureToken?: boolean;
 }
 
 /**
@@ -11,4 +12,5 @@ export interface User {
  */
 export interface FireBaseAuth {
     idToken: string;
+    expiresIn: string;
 }

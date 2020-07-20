@@ -17,16 +17,23 @@ export class AuthService {
     }
 
     /**
-     * Прототип метода получения токена с свервера
+     * Получения токена с свервера
+     * и рассчет времени хранения
      */
     get token(): string {
-        return '';
+        const expDate = new Date(localStorage.getItem('FireBase-token-exp'));
+        if (new Date() > expDate) {
+            this.logout();
+            return null;
+        }
+        return localStorage.getItem('FireBase-token');
     }
 
     /**
-     * Прототип метода входа
+     * Вход
      */
     login(user: User): Observable<any> {
+        user.returnSecureToken = true;
         return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
             .pipe(
                 tap(this.setToken)
@@ -34,10 +41,10 @@ export class AuthService {
     }
 
     /**
-     * Прототип метода выхода
+     * Выход
      */
     logout(): void {
-
+        this.setToken(null);
     }
 
     /**
@@ -48,9 +55,16 @@ export class AuthService {
     }
 
     /**
-     * Прототип метода для изменения токена
+     *  Изменение токена
+     *  или чистка при истечении времени хранения
      */
-    private setToken(response: FireBaseAuth) {
-        console.log(response);
+    private setToken(response: FireBaseAuth | null) {
+        if (response) {
+            const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+            localStorage.setItem('FireBase-token', response.idToken);
+            localStorage.setItem('FireBase-token-exp', expDate.toString());
+        } else {
+            localStorage.clear();
+        }
     }
 }

@@ -26,7 +26,8 @@
                 Введите пароль
             </small>
             <small *ngIf="form.get('password').errors.minlength">
-                Пароль должен быть не менее <b>{{ form.get('password').errors.minlength.requiredLength }}</b> символов. <br>
+                Пароль должен быть не менее <b>{{ form.get('password').errors.minlength.requiredLength }}</b> символов.
+                <br>
                 Сейчас <b>{{ form.get('password').errors.minlength.actualLength }}</b> символ.
             </small>
         </div>
@@ -34,7 +35,7 @@
 
     <button type="submit"
             class="btn btn-primary"
-            [disabled]="form.invalid">
+            [disabled]="form.invalid || submitted">
         Войти
     </button>
 </form>

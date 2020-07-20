@@ -11,7 +11,14 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
 
+    /**
+     * Форма авторизации
+     */
     form: FormGroup;
+    /**
+     * Для защиты от многократной отправки формы
+     */
+    submitted = false;
 
     constructor(
         private auth: AuthService,
@@ -32,10 +39,16 @@ export class LoginPageComponent implements OnInit {
         });
     }
 
+    /**
+     * Сабмит формы авторизации
+     */
     submit() {
         if (this.form.invalid) {
             return;
         }
+
+        // Временная Блокировка кнопки после нажатия
+        this.submitted = true;
 
         const user: User = {
             email: this.form.value.email,
@@ -45,6 +58,8 @@ export class LoginPageComponent implements OnInit {
         this.auth.login(user).subscribe(() => {
             this.form.reset();
             this.router.navigate(['/admin', 'dashboard']);
+            // Разблокировка кнопки после ответа сервара
+            this.submitted = false;
         });
     }
 }
