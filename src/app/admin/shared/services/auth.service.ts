@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../../shared/interfaces';
+import { FireBaseAuth, User } from '../../../shared/interfaces';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { tap } from 'rxjs/operators';
 
 /**
- * Авторизация не нужна в главном модуле,
- * поэтому регистрируем на уровне админского модуля
+ * Сервис для авторизации
  */
+// Авторизация не нужна в главном модуле,
+// поэтому регистрируем на уровне админского модуля
 @Injectable()
 export class AuthService {
 
@@ -24,7 +27,10 @@ export class AuthService {
      * Прототип метода входа
      */
     login(user: User): Observable<any> {
-        return this.http.post('', user);
+        return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
+            .pipe(
+                tap(this.setToken)
+            );
     }
 
     /**
@@ -34,6 +40,9 @@ export class AuthService {
 
     }
 
+    /**
+     * Если аутентификация успешная
+     */
     isAuthenticated(): boolean {
         return !!this.token;
     }
@@ -41,7 +50,7 @@ export class AuthService {
     /**
      * Прототип метода для изменения токена
      */
-    private setToken(): void {
-
+    private setToken(response: FireBaseAuth) {
+        console.log(response);
     }
 }
