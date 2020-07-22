@@ -9,6 +9,7 @@ import { EditPageComponent } from './edit-page/edit-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './shared/services/auth.service';
 import { SharedModule } from '../shared/shared.module';
+import { AuthGuardService } from './shared/services/auth.guard.service';
 
 @NgModule({
     declarations: [
@@ -36,15 +37,18 @@ import { SharedModule } from '../shared/shared.module';
                     },
                     {
                         path: 'dashboard',
-                        component: DashboardPageComponent
+                        component: DashboardPageComponent,
+                        canActivate: [AuthGuardService]
                     },
                     {
                         path: 'create',
-                        component: CreatePageComponent
+                        component: CreatePageComponent,
+                        canActivate: [AuthGuardService]
                     },
                     {
                         path: 'post/:id/edit',
-                        component: EditPageComponent
+                        component: EditPageComponent,
+                        canActivate: [AuthGuardService]
                     }
                 ]
             }
@@ -55,7 +59,8 @@ import { SharedModule } from '../shared/shared.module';
         RouterModule
     ],
     providers: [
-        AuthService
+        AuthService,
+        AuthGuardService,
     ]
 })
 export class AdminModule {
