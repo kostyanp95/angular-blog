@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../shared/interfaces';
 import { AuthService } from '../shared/services/auth.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -22,6 +22,7 @@ export class LoginPageComponent implements OnInit {
     messageLogin: string;
 
     constructor(
+        private fb: FormBuilder,
         public auth: AuthService,
         private router: Router,
         private route: ActivatedRoute
@@ -35,15 +36,15 @@ export class LoginPageComponent implements OnInit {
             }
         });
 
-        this.form = new FormGroup({
-            email: new FormControl(null, [
+        this.form = this.fb.group({
+            email: ['',
                 Validators.required,
                 Validators.email
-            ]),
-            password: new FormControl(null, [
+            ],
+            password: ['',
                 Validators.required,
                 Validators.minLength(6)
-            ])
+            ]
         });
     }
 
