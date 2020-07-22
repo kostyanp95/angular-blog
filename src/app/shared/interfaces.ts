@@ -16,9 +16,9 @@ export interface FireBaseAuth {
 }
 
 export interface Post {
-    id?: string;
-    title: string;
-    text: string;
-    author: string;
-    date: Date;
+    idPost?: string;
+    titlePost: string;
+    textPost: string;
+    authorPost: string;
+    datePost: Date;
 }

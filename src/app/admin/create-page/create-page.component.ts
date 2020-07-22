@@ -25,9 +25,9 @@ export class CreatePageComponent implements OnInit {
          * Инициализация формы создания поста
          */
         this.createPostForm = this.fb.group({
-            title: [null, [Validators.required]],
-            text: [null, [Validators.required]],
-            author: [null, [Validators.required]],
+            titlePost: [null, [Validators.required]],
+            textPost: [null, [Validators.required]],
+            authorPost: [null, [Validators.required]],
         });
     }
 
@@ -41,11 +41,13 @@ export class CreatePageComponent implements OnInit {
 
         // Создание поста на основе заполненных инпутов
         const post: Post = {
-            title: this.createPostForm.value.title,
-            text: this.createPostForm.value.text,
-            author: this.createPostForm.value.author,
-            date: new Date(),
+            titlePost: this.createPostForm.value.titlePost,
+            textPost: this.createPostForm.value.textPost,
+            authorPost: this.createPostForm.value.authorPost,
+            datePost: new Date(),
         };
+
+        console.log(post);
     }
 
 }
