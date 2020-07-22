@@ -37,13 +37,13 @@ export class LoginPageComponent implements OnInit {
         });
 
         this.form = this.fb.group({
-            email: ['',
+            email: [null, [
                 Validators.required,
-                Validators.email
+                Validators.email]
             ],
-            password: ['',
+            password: [null, [
                 Validators.required,
-                Validators.minLength(6)
+                Validators.minLength(6)]
             ]
         });
     }
