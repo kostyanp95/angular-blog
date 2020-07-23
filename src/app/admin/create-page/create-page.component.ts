@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Post } from '../../shared/interfaces';
+import { PostsService } from '../../shared/posts.service';
 
 /**
  * Компонет с формой для создания поста
@@ -17,7 +18,8 @@ export class CreatePageComponent implements OnInit {
      */
     createPostForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder,
+                private postsService: PostsService) {
     }
 
     ngOnInit(): void {
@@ -32,20 +34,25 @@ export class CreatePageComponent implements OnInit {
     }
 
     /**
-     * Создание поста при клике на кнопку
+     * Создание объекта поста при клике на кнопку
      */
     createPost(): void {
         if (this.createPostForm.invalid) {
             return;
         }
 
-        // Создание поста на основе заполненных инпутов
+        // Создание бъекта поста на основе заполненных инпутов
         const post: Post = {
             titlePost: this.createPostForm.value.titlePost,
             textPost: this.createPostForm.value.textPost,
             authorPost: this.createPostForm.value.authorPost,
             datePost: new Date(),
         };
+
+        // Очистка полей при успешном создании поста
+        this.postsService.createPostInDataBase(post).subscribe(() => {
+            this.createPostForm.reset();
+        });
 
         console.log(post);
     }

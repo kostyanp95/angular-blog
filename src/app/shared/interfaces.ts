@@ -15,10 +15,20 @@ export interface FireBaseAuth {
     expiresIn: string;
 }
 
+/**
+ * Интерфейс поста
+ */
 export interface Post {
     idPost?: string;
     titlePost: string;
     textPost: string;
     authorPost: string;
     datePost: Date;
+}
+
+/**
+ * Интерфейс для ответа сервера
+ */
+export interface FbCreateResponse {
+    name: string;
 }
