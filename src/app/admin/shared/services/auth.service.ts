@@ -8,9 +8,9 @@ import { catchError, tap } from 'rxjs/operators';
 /**
  * Сервис для авторизации
  */
-// Авторизация не нужна в главном модуле,
-// поэтому регистрируем на уровне админского модуля
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthService {
 
     public error$: Subject<string> = new Subject<string>();

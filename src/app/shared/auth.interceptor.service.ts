@@ -1,0 +1,54 @@
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { AuthService } from '../admin/shared/services/auth.service';
+import { Router } from '@angular/router';
+import { catchError, tap } from 'rxjs/operators';
+
+/**
+ * Интерсептор для обработки ошибок
+ * и передачи токенов серверу
+ */
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthInterceptorService implements HttpInterceptor {
+
+    constructor(private auth: AuthService,
+                private router: Router) {
+    }
+
+    /**
+     * Добавление токена и обработка ошибок
+     */
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+        // Если токен присутствует и юзер зарегистрирован
+        if (this.auth.isAuthenticated()) {
+            req = req.clone({
+                setParams: {
+                    auth: this.auth.token
+                }
+            });
+        }
+        return next.handle(req)
+            // Обработка ошибок
+            .pipe(
+                tap(() => {
+                    console.log('Interceptor');
+                }),
+                catchError((error: HttpErrorResponse) => {
+                    console.log('[Interceptor Error]: ', error);
+                    if (error.status === 401) {
+                        this.auth.logout();
+                        this.router.navigate(['/admin', 'login'], {
+                            queryParams: {
+                                authFailed: true
+                            }
+                        });
+                    }
+                    return throwError(error);
+                })
+            );
+    }
+}

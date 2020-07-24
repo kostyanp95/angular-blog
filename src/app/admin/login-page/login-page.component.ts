@@ -19,7 +19,10 @@ export class LoginPageComponent implements OnInit {
      * Для защиты от многократной отправки формы
      */
     submitted = false;
-    messageLogin: string;
+    /**
+     * Сообщения для обработки ошибок
+     */
+    message: string;
 
     constructor(
         private fb: FormBuilder,
@@ -32,7 +35,9 @@ export class LoginPageComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe((params: Params) => {
             if (params['loginAgain']) {
-                this.messageLogin = 'Необходимо авторизоваться как администратор.';
+                this.message = 'Необходимо авторизоваться как администратор.';
+            } else if (params['authFailed']) {
+                this.message = 'Сессия истекла, залогиньтесь еще раз.';
             }
         });
 
