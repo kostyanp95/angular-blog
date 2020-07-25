@@ -59,7 +59,6 @@ import { AuthGuardService } from './shared/services/auth.guard.service';
         RouterModule
     ],
     providers: [
-        AuthService,
         AuthGuardService,
     ]
 })

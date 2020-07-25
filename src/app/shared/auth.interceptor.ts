@@ -5,25 +5,16 @@ import { AuthService } from '../admin/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 
-/**
- * Интерсептор для обработки ошибок
- * и передачи токенов серверу
- */
-@Injectable({
-    providedIn: 'root'
-})
-export class AuthInterceptorService implements HttpInterceptor {
-
-    constructor(private auth: AuthService,
-                private router: Router) {
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    constructor(
+        private auth: AuthService,
+        private router: Router
+    ) {
     }
 
-    /**
-     * Добавление токена и обработка ошибок
-     */
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        // Если токен присутствует и юзер зарегистрирован
+        // Если пользователь существует и есть токен
         if (this.auth.isAuthenticated()) {
             req = req.clone({
                 setParams: {
@@ -32,10 +23,9 @@ export class AuthInterceptorService implements HttpInterceptor {
             });
         }
         return next.handle(req)
-            // Обработка ошибок
             .pipe(
                 tap(() => {
-                    console.log('Interceptor');
+                    console.log('Intercept');
                 }),
                 catchError((error: HttpErrorResponse) => {
                     console.log('[Interceptor Error]: ', error);
