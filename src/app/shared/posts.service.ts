@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { FbCreateResponse, Post } from './interfaces';
-import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {FbCreateResponse, Post} from './interfaces';
+import {environment} from '../../environments/environment';
+import {map} from 'rxjs/operators';
 
 /**
  * Сервис для работы с постами
@@ -28,5 +28,21 @@ export class PostsService {
                     datePost: new Date(post.datePost)
                 };
             }));
+    }
+
+    /**
+     * Получить все посты с сервера
+     */
+    getAllPosts(): Observable<Post[]> {
+        return this.http.get(`${environment.fireBaseDB}/posts.json`)
+            .pipe(map((response: {[key: string]: any}) => {
+                return Object
+                    .keys(response)
+                    .map(key => ({
+                        ...response[key],
+                        id: key,
+                        date: new Date(response[key].date)
+                    }))
+            }))
     }
 }
