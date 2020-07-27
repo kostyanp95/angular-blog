@@ -15,6 +15,10 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
      * Для отписки от стрима постов
      */
     postUnsubscribe: Subscription;
+    /**
+     * Поисковый запрос в ипнуте поиска постов
+     */
+    searchPost: string = '';
 
     constructor(private postsService: PostsService) {
     }
