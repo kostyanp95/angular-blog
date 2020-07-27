@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PostsService} from "../../shared/posts.service";
-import {Post} from "../../shared/interfaces";
-import {Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PostsService } from "../../shared/posts.service";
+import { Post } from "../../shared/interfaces";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-dashboard-page',
@@ -10,38 +10,57 @@ import {Subscription} from "rxjs";
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
-    posts: Post[] = [];
     /**
-     * Для отписки от стрима постов
+     * Массив с постами с сервера
      */
-    postUnsubscribe: Subscription;
+    posts: Post[] = [];
+
     /**
      * Поисковый запрос в ипнуте поиска постов
      */
     searchPost: string = '';
 
+    /**
+     * Для отписки от стрима постов
+     */
+    updatePostSub: Subscription;
+
+    /**
+     * Для отписки от удаления поста
+     */
+    deletePostSub: Subscription;
+
     constructor(private postsService: PostsService) {
     }
 
     ngOnInit(): void {
-        this.postUnsubscribe = this.postsService.getAllPosts().subscribe(posts => {
+        // Подгрузка постов в дащборде
+        this.updatePostSub = this.postsService.getAllPosts().subscribe(posts => {
             this.posts = posts;
         });
+    }
+
+    /**
+     * Удалить пост
+     */
+    removePost(idPost: string): void {
+        this.deletePostSub = this.postsService
+            .removePost(idPost)
+            .subscribe(() => {
+                this.posts = this.posts.filter(post => post.idPost !== idPost);
+            });
     }
 
     /**
      * Отписка
      */
     ngOnDestroy(): void {
-        if (this.postUnsubscribe) {
-            this.postUnsubscribe.unsubscribe();
+        if (this.updatePostSub) {
+            this.updatePostSub.unsubscribe();
         }
-    }
 
-    /**
-     * Удалить пост
-     */
-    removePost(id: string) {
-
+        if (this.deletePostSub) {
+            this.deletePostSub.unsubscribe();
+        }
     }
 }
