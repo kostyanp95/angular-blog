@@ -1,6 +1,6 @@
 <div *ngIf="posts.length; else loading">
     <div class="form-control">
-        <input type="text" placeholder="Найти пост..." [(ngModel)]="searchPost">
+        <input type="text" placeholder="Найти пост..." [(ngModel)]="searchTitlePost">
     </div>
     <table>
         <thead>
@@ -13,16 +13,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let post of posts | searchPost:searchPost; let index = index;">
+        <tr *ngFor="let post of posts | searchPosts:searchTitlePost; let index = index;">
             <td>{{ index + 1 }}</td>
-            <td>{{ post.authorPost }}</td>
-            <td>{{ post.titlePost }}</td>
-            <td>{{ post.datePost | date:'medium' }}</td>
+            <td>{{ post.author }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.date | date:'medium' }}</td>
             <td>
-                <button class="btn btn-link btn-open" [routerLink]="['/admin', 'post', post.idPost, 'edit']">
+                <button class="btn btn-link btn-open" [routerLink]="['/admin', 'post', post.id, 'edit']">
                     Открыть
                 </button>
-                <a (click)="removePost(post.idPost)">Удалить</a>
+                <a (click)="removePost(post.id)">Удалить</a>
             </td>
         </tr>
         </tbody>

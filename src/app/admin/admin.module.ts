@@ -10,7 +10,7 @@ import { CreatePageComponent } from './create-page/create-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuardService } from './shared/services/auth.guard.service';
-import { SearchPostPipe } from "../shared/search-post.pipe";
+import { SearchPostPipe } from "./shared/services/search-post.pipe";
 
 @NgModule({
     declarations: [

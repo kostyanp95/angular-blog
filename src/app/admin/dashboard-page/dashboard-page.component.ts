@@ -18,7 +18,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     /**
      * Поисковый запрос в ипнуте поиска постов
      */
-    searchPost: string = '';
+    searchTitlePost: string = '';
 
     /**
      * Для отписки от стрима постов
@@ -43,11 +43,11 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     /**
      * Удалить пост
      */
-    removePost(idPost: string): void {
+    removePost(id: string): void {
         this.deletePostSub = this.postsService
-            .removePost(idPost)
+            .removePost(id)
             .subscribe(() => {
-                this.posts = this.posts.filter(post => post.idPost !== idPost);
+                this.posts = this.posts.filter(post => post.id !== id);
             });
     }
 

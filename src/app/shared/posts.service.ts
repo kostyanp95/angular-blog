@@ -21,16 +21,13 @@ export class PostsService {
      */
     createPostInDataBase(post: Post): Observable<Post> {
         return this.http.post(`${environment.fireBaseDB}/posts.json`, post)
-            .pipe(
-                map((response: FbCreateResponse) => {
-                        return {
-                            ...post,
-                            idPost: response.name,
-                            datePost: new Date(post.datePost)
-                        };
-                    }
-                )
-            );
+            .pipe(map((response: FbCreateResponse) => {
+                return {
+                    ...post,
+                    id: response.name,
+                    date: new Date(post.date)
+                } as Post
+            }));
     }
 
     /**
@@ -43,16 +40,36 @@ export class PostsService {
                     .keys(response)
                     .map(key => ({
                         ...response[key],
-                        idPost: key,
-                        datePost: new Date(response[key].date)
-                    }))
-            }))
+                        id: key,
+                        date: new Date(response[key].date)
+                    }));
+            }));
+    }
+
+    /**
+     * Получение поста по id
+     */
+    getPostById(id: string): Observable<Post> {
+        return this.http.get<Post>(`${environment.fireBaseDB}/posts/${id}.json`)
+            .pipe(map((post: Post) => {
+                return {
+                    ...post, id,
+                    date: new Date(post.date)
+                };
+            }));
     }
 
     /**
      * Удаление поста с БД сервера
      */
-    removePost(idPost: string): Observable<void> {
-        return this.http.delete<void>(`${environment.fireBaseDB}/posts/${idPost}.json`)
+    removePost(id: string): Observable<void> {
+        return this.http.delete<void>(`${environment.fireBaseDB}/posts/${id}.json`)
+    }
+
+    /**
+     * Редактирование поста в БД на сервере
+     */
+    editPost(post: Post): Observable<Post> {
+        return this.http.patch<Post>(`${environment.fireBaseDB}/posts/${post.id}.json`, post)
     }
 }

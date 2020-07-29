@@ -19,11 +19,11 @@ export interface FireBaseAuth {
  * Интерфейс поста
  */
 export interface Post {
-    idPost?: string;
-    titlePost: string;
-    textPost: string;
-    authorPost: string;
-    datePost: Date;
+    id?: string;
+    title: string;
+    text: string;
+    author: string;
+    date: Date;
 }
 
 /**

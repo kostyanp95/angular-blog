@@ -1,11 +1,11 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {Post} from "./interfaces";
+import { Pipe, PipeTransform } from '@angular/core';
+import { Post } from "../../../shared/interfaces";
 
 /**
  * Пайп для инпута поиска постов
  */
 @Pipe({
-    name: 'searchPost'
+    name: 'searchPosts'
 })
 export class SearchPostPipe implements PipeTransform {
 
@@ -14,7 +14,7 @@ export class SearchPostPipe implements PipeTransform {
             return posts;
         }
 
-        return posts.filter(post => post.titlePost.toLowerCase().includes(search.toLowerCase()))
+        return posts.filter(post => post.title.toLowerCase().includes(search.toLowerCase()))
     }
 
 }
