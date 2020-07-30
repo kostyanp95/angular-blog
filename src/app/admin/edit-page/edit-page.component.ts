@@ -12,8 +12,17 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 })
 export class EditPageComponent implements OnInit {
 
+    /**
+     * Форма редактирования поста
+     */
     editPostForm: FormGroup;
+    /**
+     * Объект поста
+     */
     post: Post;
+    /**
+     * Проверка редактирования форым
+     */
     submitted: boolean = false;
 
     constructor(
@@ -35,13 +44,18 @@ export class EditPageComponent implements OnInit {
         })
     }
 
+    /**
+     * Редактирование поста
+     */
     editPost() {
         if (this.editPostForm.invalid) {
             return
         }
 
+        // Переключение состояния
         this.submitted = true;
 
+        // Записываем данные с полей формы
         this.postsService.editPost({
             ...this.post,
             text: this.editPostForm.value.text,

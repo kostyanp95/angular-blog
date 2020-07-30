@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Post } from '../../shared/interfaces';
 import { PostsService } from '../../shared/posts.service';
 
@@ -23,13 +23,11 @@ export class CreatePageComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        /**
-         * Инициализация формы создания поста
-         */
-        this.createPostForm = new FormGroup({
-            title: new FormControl(null, Validators.required),
-            text: new FormControl(null, Validators.required),
-            author: new FormControl(null, Validators.required),
+        // Инициализация формы создания поста
+        this.createPostForm = this.fb.group({
+            title: [null, Validators.required],
+            text: [null, Validators.required],
+            author: [null, Validators.required],
         });
     }
 
@@ -54,7 +52,7 @@ export class CreatePageComponent implements OnInit {
             this.createPostForm.reset();
         });
 
-        console.log(post);
+        console.log('Созданный пост: ', post);
     }
 
 }
