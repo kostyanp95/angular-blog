@@ -69,7 +69,7 @@ export class PostsService {
     /**
      * Редактирование поста в БД на сервере
      */
-    editPost(post: Post): Observable<Post> {
+    updatePost(post: Post): Observable<Post> {
         return this.http.patch<Post>(`${environment.fireBaseDB}/posts/${post.id}.json`, post)
     }
 }
