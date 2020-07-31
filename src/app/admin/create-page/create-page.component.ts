@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Post } from '../../shared/interfaces';
 import { PostsService } from '../../shared/posts.service';
+import { AlertService } from "../shared/services/alert.service";
 
 /**
  * Компонет с формой для создания поста
@@ -19,7 +20,8 @@ export class CreatePageComponent implements OnInit {
     createPostForm: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private postsService: PostsService) {
+                private postsService: PostsService,
+                private alert: AlertService) {
     }
 
     ngOnInit(): void {
@@ -50,6 +52,7 @@ export class CreatePageComponent implements OnInit {
         // Очистка полей при успешном создании поста
         this.postsService.createPostInDataBase(post).subscribe(() => {
             this.createPostForm.reset();
+            this.alert.success('Пост был создан');
         });
 
         console.log('Созданный пост: ', post);

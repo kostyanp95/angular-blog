@@ -53,7 +53,8 @@ export class PostsService {
         return this.http.get<Post>(`${environment.fireBaseDB}/posts/${id}.json`)
             .pipe(map((post: Post) => {
                 return {
-                    ...post, id,
+                    ...post,
+                    id,
                     date: new Date(post.date)
                 };
             }));
@@ -63,13 +64,13 @@ export class PostsService {
      * Удаление поста с БД сервера
      */
     removePost(id: string): Observable<void> {
-        return this.http.delete<void>(`${environment.fireBaseDB}/posts/${id}.json`)
+        return this.http.delete<void>(`${environment.fireBaseDB}/posts/${id}.json`);
     }
 
     /**
      * Редактирование поста в БД на сервере
      */
     updatePost(post: Post): Observable<Post> {
-        return this.http.patch<Post>(`${environment.fireBaseDB}/posts/${post.id}.json`, post)
+        return this.http.patch<Post>(`${environment.fireBaseDB}/posts/${post.id}.json`, post);
     }
 }
