@@ -9,10 +9,10 @@ import { AlertService } from "../shared/services/alert.service";
  */
 @Component({
     selector: 'app-create-page',
-    templateUrl: './create-page.component.html',
-    styleUrls: ['./create-page.component.scss']
+    templateUrl: './create-post-page.component.html',
+    styleUrls: ['./create-post-page.component.scss']
 })
-export class CreatePageComponent implements OnInit {
+export class CreatePostPageComponent implements OnInit {
 
     /**
      * Форма создания поста

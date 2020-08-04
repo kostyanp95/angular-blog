@@ -12,10 +12,10 @@ import { AlertService } from '../shared/services/alert.service';
  */
 @Component({
     selector: 'app-edit-page',
-    templateUrl: './edit-page.component.html',
-    styleUrls: ['./edit-page.component.scss']
+    templateUrl: './edit-post-page.component.html',
+    styleUrls: ['./edit-post-page.component.scss']
 })
-export class EditPageComponent implements OnInit, OnDestroy {
+export class EditPostPageComponent implements OnInit, OnDestroy {
 
     /**
      * Форма редактирования поста
