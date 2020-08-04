@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from "@angular/router";
-import { PostsService } from "../../shared/posts.service";
-import { switchMap } from "rxjs/operators";
-import { Post } from "../../shared/interfaces";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { AlertService } from "../shared/services/alert.service";
+import { ActivatedRoute, Params } from '@angular/router';
+import { PostsService } from '../../shared/posts.service';
+import { switchMap } from 'rxjs/operators';
+import { Post } from '../../shared/interfaces';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { AlertService } from '../shared/services/alert.service';
 
 /**
  * Компонент с формой редактирования поста
@@ -28,7 +28,7 @@ export class EditPageComponent implements OnInit, OnDestroy {
     /**
      * Проверка редактирования форым
      */
-    submitted: boolean = false;
+    submitted = false;
     /**
      * Для отписки
      */
@@ -44,14 +44,15 @@ export class EditPageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.route.params.pipe(
             switchMap((params: Params) => {
-                return this.postsService.getPostById(params['id'])
+                return this.postsService.getPostById(params['id']);
             })
         ).subscribe((post: Post) => {
+            this.post = post;
             this.editPostForm = new FormGroup({
                 title: new FormControl(post.title, Validators.required),
                 text: new FormControl(post.text, Validators.required)
-            })
-        })
+            });
+        });
     }
 
     /**
@@ -59,11 +60,13 @@ export class EditPageComponent implements OnInit, OnDestroy {
      */
     editPost() {
         if (this.editPostForm.invalid) {
-            return
+            return;
         }
 
         // Переключение состояния флага
         this.submitted = true;
+
+        console.log('POst before update: ', this.post);
 
         // Записываем данные с полей формы
         this.updatePostSubscribe = this.postsService.updatePost({
@@ -72,8 +75,9 @@ export class EditPageComponent implements OnInit, OnDestroy {
             title: this.editPostForm.value.title,
         }).subscribe(() => {
             this.submitted = false;
+            console.log('Post update: ', this.post);
             this.alert.success('Пост был изменен');
-        })
+        });
     }
 
     /**
